@@ -1,5 +1,32 @@
-/* ========= HEADER LOGO COM BANDEIRA ========= */
+/* ===================================================================
+   style.css - Codex PT-BR (Dark theme, Brazilian palette)
+   Compatível com index.html + script.js fornecidos
+   =================================================================== */
 
+/* ---------- Reset / base ---------- */
+* { box-sizing: border-box; }
+html,body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #05070b; /* preto profundo */
+  color: #d9e8f5;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ---------- Header ---------- */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 18px;
+  background: linear-gradient(90deg, #002b55 0%, #004a6b 55%, #cfae33 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+/* logo + title */
 .logo{
   display:flex;
   align-items:center;
@@ -9,21 +36,233 @@
 .logo img{
   width:22px;
   height:22px;
-  object-fit:contain;
+  object-fit:cover;
+  border-radius:3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 
-/* ========= RODAPÉ ========= */
-
-footer{
-  background:#05070b;
-  border-top:1px solid #132033;
-  color:#aab6c5;
-  font-size:11px;
-  padding:10px 16px;
-  text-align:center;
+header h1{
+  font-size:17px;
+  margin:0;
+  color:white;
+  letter-spacing:0.2px;
 }
 
-/* Ajuste para o layout não esconder o footer */
+/* search input */
+#search{
+  width:340px;
+  max-width:46%;
+  min-width:160px;
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:#09111a;
+  color:#eaf2ff;
+  outline:none;
+  font-size:14px;
+}
+
+/* focus */
+#search:focus{
+  box-shadow: 0 0 0 3px rgba(79, 165, 255, 0.08);
+  border-color: rgba(79,165,255,0.3);
+}
+
+/* ---------- Layout ---------- */
+/* altura ajustada para caber header + footer */
 .layout{
-  height: calc(100vh - 95px);
+  display:flex;
+  gap:0;
+  height: calc(100vh - 60px); /* header ~60px */
+  overflow: hidden;
 }
+
+/* Sidebar */
+aside#sidebar{
+  width:320px;
+  min-width:220px;
+  max-width:360px;
+  background: linear-gradient(180deg, #070b11 0%, #061018 100%);
+  border-right: 1px solid rgba(255,255,255,0.03);
+  padding:12px 10px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Title (principal) in sidebar */
+.title{
+  font-weight:700;
+  color:#6fc5ff; /* azul suave */
+  cursor:pointer;
+  padding:8px 10px;
+  margin:6px 0;
+  border-radius:6px;
+  transition: background 160ms ease, transform 120ms ease;
+}
+
+.title:hover{
+  background: rgba(111,197,255,0.06);
+  transform: translateX(4px);
+}
+
+/* Sub items in sidebar */
+.sub{
+  margin-left:14px;
+  color:#47d4a3; /* verde suave */
+  font-size:14px;
+  cursor:pointer;
+  padding:6px 10px;
+  border-radius:6px;
+  transition: background 140ms ease, transform 120ms ease;
+}
+
+.sub:hover{
+  background: rgba(71, 212, 163, 0.06);
+  transform: translateX(6px);
+}
+
+/* make sidebar text selectable for copy */
+aside#sidebar .title, aside#sidebar .sub { user-select: text; }
+
+/* ---------- Content panel ---------- */
+main#content{
+  flex:1;
+  padding:22px 28px;
+  overflow-y:auto;
+  background: linear-gradient(180deg, rgba(5,7,11,0.98) 0%, rgba(3,4,6,0.98) 100%);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Headings in content */
+main#content h1, main#content h2, main#content h3 {
+  margin: 0 0 10px 0;
+  line-height:1.15;
+}
+
+main#content h1{
+  color: #7fc7ff;
+  font-size:24px;
+  margin-bottom:12px;
+}
+
+main#content p{
+  color:#c7d8ea;
+  line-height:1.68;
+  font-size:15px;
+  margin: 8px 0 14px 0;
+}
+
+/* separator */
+hr{
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.03);
+  margin:18px 0;
+}
+
+/* ---------- Accordion (subBlock) ---------- */
+.subBlock{
+  border-left: 2px solid rgba(255,255,255,0.02);
+  margin:12px 0;
+  padding:10px 12px 12px 16px;
+  border-radius:6px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.005), rgba(255,255,255,0.002));
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+/* Title line of subcodex */
+.subTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:15px;
+  font-weight:700;
+  color:#47d4a3; /* same green as sidebar subs */
+  cursor:pointer;
+  user-select: none;
+}
+
+/* caret via pseudo - uses unicode triangles */
+.subTitle::after{
+  content: "▸";
+  margin-left:8px;
+  color:#cfae33; /* gold */
+  font-size:12px;
+  transition: transform 200ms ease;
+}
+
+/* open state */
+.subBlock.open .subTitle::after{
+  transform: rotate(90deg);
+  content:"▾";
+}
+
+/* content hidden by default */
+.subText{
+  max-height:0;
+  overflow:hidden;
+  color:#bcd1e6;
+  font-size:13.5px;
+  margin-top:8px;
+  transition: max-height 260ms ease, opacity 220ms ease;
+  opacity:0;
+  line-height:1.6;
+  white-space: pre-wrap; /* preserve line breaks */
+}
+
+/* when open, expand */
+.subBlock.open .subText{
+  opacity:1;
+  max-height:1200px; /* big enough for content */
+}
+
+/* small visual when hovering openable block */
+.subBlock:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* ---------- Search result highlight ---------- */
+.highlight{
+  background:#cfae33;
+  color:#041018;
+  padding:2px 4px;
+  border-radius:3px;
+  font-weight:600;
+}
+
+/* ---------- Footer ---------- */
+footer{
+  background: #05070b;
+  color:#9fb3c9;
+  font-size:12px;
+  padding:12px 18px;
+  border-top:1px solid rgba(255,255,255,0.02);
+  text-align:center;
+  line-height:1.4;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px){
+
+  header{ padding:10px; }
+  #search{ width:40%; min-width:120px; }
+
+  aside#sidebar{
+    width:260px;
+  }
+
+  main#content{ padding:16px; }
+
+}
+
+@media (max-width: 600px){
+  .layout{ flex-direction:column; height:auto; }
+  aside#sidebar{ width:100%; max-height:34vh; overflow:auto; border-right:none; border-bottom:1px solid rgba(255,255,255,0.03); }
+  main#content{ height:auto; min-height:48vh; }
+  header{ flex-direction:column; align-items:flex-start; gap:8px; }
+  #search{ width:100%; max-width:100%; }
+}
+
+/* ---------- Small utility ---------- */
+.hidden { display:none !important; }
+.padding-sm { padding:6px; }
