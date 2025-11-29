@@ -1,0 +1,35 @@
+title,content,subcodexes
+Ability,"Todas as cartas no jogo possuem habilidades! Existem duas categorias de habilidades: habilidades básicas, que todas as unidades possuem mesmo sem estarem impressas em suas cartas; e habilidades especiais, que são o texto da própria carta ou texto concedido a ela por outros efeitos, por exemplo [[Black Obelisk]]. As cartas também possuem características, que são distintas de habilidades.",
+Activated Ability,"Uma habilidade ativada possui um custo (como tap ou pagar mana) e um efeito. Por exemplo, [[Field Laborers]] possuem uma habilidade ativada. Se você pagar o custo, o efeito ocorre. Se você puder pagar o custo múltiplas vezes, poderá fazê-lo (e o efeito ocorrerá a cada vez que você pagar o custo).
+Habilidades ativadas só podem ser usadas no seu turno, durante sua Main Phase, e quando não houver eventos pendentes na storyline. Observe que também é possível que uma habilidade ativada não tenha custo; nesse caso, ela provavelmente terá algum outro limite, como uma vez no seu turno. Por exemplo, [[Queen Guinevere]] possui uma habilidade ativada sem custo, mas é limitada a uma vez no seu turno. Acompanhe o uso desse tipo de habilidade durante seu turno para garantir que o estado de jogo permaneça claro para ambos os jogadores.
+Por padrão, somente o controlador de uma carta pode usar suas habilidades ativadas.",
+,,"Activating Abilities: Para ativar uma habilidade, certifique-se de que: você controla a carta com a habilidade; é o seu turno; está na sua Main Phase; não há eventos na storyline; e você pode pagar o custo. Assim que você pagar o custo e declarar os alvos (se houver), o efeito da habilidade ativada vai para a storyline e então será resolvido normalmente."
+Active Player,O jogador ativo é o jogador que está atualmente realizando o seu turno.,
+Adjacent,"Adjacent: refere-se ao quadrado atual e aos quatro quadrados ortogonais que compartilham uma borda com ele (não inclui diagonais). Por exemplo, o quadrado central possui 5 quadrados Adjacent — ele mesmo e outros quatro. Se um quadrado estiver em um canto do realm, terá menos quadrados Adjacent. Por exemplo, o quadrado inferior direito possui apenas 3 quadrados Adjacent — ele mesmo e outros dois.
+
+Ao se referir a adjacent sites, adjacent voids ou adjacent squares, o efeito pode cruzar as fronteiras entre regiões. Por exemplo, [[Lord of the Void]] pode estar no void e ainda assim banir um site Adjacent, mesmo que sites e voids estejam em regiões diferentes. [[Frontier Settlers]] pode estar em um site e ainda assim jogar seu site do topo em um void Adjacent, mesmo que sites e voids estejam em regiões diferentes.
+
+Para todas as outras referências a Adjacent, como adjacent locations, adjacent minions, adjacent artifacts, etc., os limites regionais devem ser respeitados e não podem ser cruzados. Por exemplo, se um minion com Voidwalk for atacado enquanto estiver em um site e então jogar [[Dodge Roll]], ele não poderá se mover para um quadrado de void, pois “adjacent location” não pode cruzar uma fronteira de região.",
+Air Site,"Um air site é um site que fornece pelo menos uma afinidade de air (A). Se o site fornecer outros tipos de afinidade também, ele ainda é considerado um air site, desde que forneça ao menos uma afinidade de air.",
+Airborne,"Keyword ability. Uma unidade com Airborne pode voar enquanto estiver na surface. Ela ganha três benefícios enquanto estiver na surface: ao dar um step, pode se mover em diagonal. Ela não pode ser alvo de ataques, a menos que a unidade atacante também possua Airborne. Ela não pode ser interceptada, a menos que a unidade que esteja interceptando possua Airborne ou Ranged.
+
+Lembretes importantes: Ataques de unidades com Airborne podem ser defendidos normalmente! Airborne é, em sua maior parte, uma habilidade defensiva e concede maior mobilidade, mas ataques com Airborne (contra uma unidade ou um site) podem ser defendidos por qualquer unidade, mesmo sem Airborne! A unidade com Airborne deve descer para atacar. Mesmo que um atacante com Airborne tenha como alvo um defensor com Airborne, uma unidade sem Airborne ainda pode defender, já que o alvo original pode trazer o combate para o solo.
+
+Airborne funciona apenas na surface. Se a unidade iniciar seu step na surface de um site, ela pode se mover em diagonal. Se a unidade iniciar seu step em uma região diferente (void, underwater, underground), então ela não pode se mover em diagonal (e também não recebe os outros benefícios).
+
+Airborne não tem qualquer efeito na contagem de distância para efeitos com “up to X steps away”, por exemplo [[Disenchant]].",
+Ally,"Um ally é uma unidade que você controla, incluindo o seu Avatar. Allies são sempre unidades, salvo quando especificado de outra forma pelo texto de uma carta. Por exemplo, [[Cast into Exile]] usa “allied site”, que significa “um site que você controla”.",
+Animate,"O ChatGPT disse:
+
+Animate significa conceder a uma carta o tipo minion. Ela se torna um minion pela duração do efeito, além de seus outros tipos. Por exemplo, [[Enchantress]].",
+Artifact,"Artifacts são vários tipos de relíquias, edificações, ferramentas, equipamentos, engenhocas, dispositivos e bugigangas, frequentemente carregados com encantamentos duradouros por magos de antigamente. [[Spear of Destiny]] é um exemplo de artifact.
+
+Artifacts possuem uma moldura de artifact em sua carta e, normalmente, não exigem threshold. Por exemplo, [[Philosopher's Stone]] ou [[Sword and Shield]].
+
+Os subtipos de artifact incluem Armor, Device, Document, Instrument, Potion, Relic e Weapon, os quais não possuem regras especiais de jogo, embora outras cartas possam fazer referência a eles. Existem dois subtipos especiais de artifact, Automaton e Monument, que possuem regras especiais, descritas abaixo.
+
+Artifacts possuem características, especificamente ((artifact characteristics)), e são um dos seis tipos de carta no jogo. Por padrão, qualquer artifact que não seja Monument nem Automaton pode ser carregado por uma unidade. Se tal artifact não estiver sendo carregado, então ele não é controlado por ninguém. Se tal artifact estiver sendo carregado, então ele é controlado pelo controlador do portador.
+
+A entrada “((Casting Artifacts))” contém detalhes sobre como conjurar magias de artifact.",
+,,Automaton: Automatons são artifacts que também são minions. Veja “Cards With Multiple Types” na entrada de characteristics para mais detalhes. [[Crave Golem]] é um exemplo de um automaton.
+,,Monument: Monuments são um subtipo de artifact que não podem ser carregados. [[The Immortal Throne]] é um exemplo de um monument.
