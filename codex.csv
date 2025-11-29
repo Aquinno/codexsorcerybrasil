@@ -19,7 +19,7 @@ Airborne funciona apenas na surface. Se a unidade iniciar seu step na surface de
 
 Airborne não tem qualquer efeito na contagem de distância para efeitos com “up to X steps away”, por exemplo [[Disenchant]].",
 Ally,"Um ally é uma unidade que você controla, incluindo o seu Avatar. Allies são sempre unidades, salvo quando especificado de outra forma pelo texto de uma carta. Por exemplo, [[Cast into Exile]] usa “allied site”, que significa “um site que você controla”.",
-Animate,"O ChatGPT disse:
+Animate,"
 
 Animate significa conceder a uma carta o tipo minion. Ela se torna um minion pela duração do efeito, além de seus outros tipos. Por exemplo, [[Enchantress]].",
 Artifact,"Artifacts são vários tipos de relíquias, edificações, ferramentas, equipamentos, engenhocas, dispositivos e bugigangas, frequentemente carregados com encantamentos duradouros por magos de antigamente. [[Spear of Destiny]] é um exemplo de artifact.
@@ -32,4 +32,5 @@ Artifacts possuem características, especificamente ((artifact characteristics))
 
 A entrada “((Casting Artifacts))” contém detalhes sobre como conjurar magias de artifact.",
 ,,Automaton: Automatons são artifacts que também são minions. Veja “Cards With Multiple Types” na entrada de characteristics para mais detalhes. [[Crave Golem]] é um exemplo de um automaton.
+
 ,,Monument: Monuments são um subtipo de artifact que não podem ser carregados. [[The Immortal Throne]] é um exemplo de um monument.
