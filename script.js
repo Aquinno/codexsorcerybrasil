@@ -1,260 +1,301 @@
-fetch("codex.csv")
-  .then(r => r.text())
-  .then(parseCSV);
+let codexData = [];
+let expandedSubcodex = null;
 
-let entries = [];
+/* ================================
+   BOOT
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  loadCSV();
 
-/* ======================================
-   CSV PARSER COMPATÍVEL COM SEU FORMATO
-====================================== */
+  document.getElementById("search")
+    .addEventListener("input", searchCodex);
 
+  // suporta deep links via #Title/SubCodex
+  window.addEventListener("hashchange", handleHash);
+});
+
+/* ================================
+   CSV LOADING + PARSE
+================================ */
+function loadCSV(){
+
+  fetch("codex.csv")
+    .then(r => r.text())
+    .then(text => {
+      codexData = parseCSV(text);
+      buildSidebar();
+      handleHash(); // dispara ao carregar
+    });
+
+}
+
+/* Parser tolerante com multiline e aspas */
 function parseCSV(text){
 
-  const rows = [];
-  let current = [];
-  let value = "";
-  let inQuotes = false;
+  const rows=[];
+  let cur=[], val="", inQuotes=false;
 
-  for(let i = 0; i < text.length; i++){
-    const c = text[i];
+  for(let i=0;i<text.length;i++){
+    
+    const c=text[i];
 
-    if(c === '"'){
-      inQuotes = !inQuotes;
+    if(c === `"`) inQuotes=!inQuotes;
+    else if(c === `,` && !inQuotes){
+      cur.push(val.trim());
+      val="";
     }
-    else if(c === "," && !inQuotes){
-      current.push(value.trim());
-      value = "";
-    }
-    else if((c === "\n" || c === "\r") && !inQuotes){
-      if(value.length || current.length){
-        current.push(value.trim());
-        rows.push(current);
-        current = [];
-        value = "";
+    else if((c === `\n` || c === `\r`) && !inQuotes){
+      if(val || cur.length){
+        cur.push(val.trim());
+        rows.push(cur);
+        cur=[];
+        val="";
       }
     }
     else{
-      value += c;
+      val+=c;
     }
+
   }
 
-  if(value || current.length){
-    current.push(value.trim());
-    rows.push(current);
+  if(val || cur.length){
+    cur.push(val.trim());
+    rows.push(cur);
   }
 
-  // Remove cabeçalho
   const data = rows.slice(1);
+  let lastTitle="";
 
-  let lastTitle = "";
-
-  data.forEach(row => {
-
-    if(row.length < 3) return;
+  return data.map(row=>{
 
     let title = clean(row[0]);
     let content = clean(row[1]);
     let sub = clean(row[2]);
 
-    // Quando o title vier vazio → continua no mesmo título
-    if(!title){
-      title = lastTitle;
-    } else {
-      lastTitle = title;
-    }
+    if(!title) title = lastTitle;
+    else lastTitle = title;
 
-    entries.push({
-      title,
-      sub,
-      content
-    });
+    return { title, content, sub };
 
   });
 
-  buildSidebar();
 }
 
-/* ======================================
-   FUNÇÕES AUXILIARES
-====================================== */
-
-function clean(text){
-  if(!text) return "";
-  return text.replace(/^"|"$/g, "").replace(/\s+/g," ").trim();
+/* ================================
+   HELPERS
+================================ */
+function clean(txt){
+  return (txt || "")
+    .replace(/^"|"$/g,"")
+    .replace(/\s+/g," ")
+    .trim();
 }
 
-// Divide título em antes e depois dos ":"
-function splitColon(text){
-  const i = text.indexOf(":");
-  if(i === -1) return [ text, "" ];
+function splitColon(txt){
+  const i = txt.indexOf(":");
+  if(i === -1) return [txt.trim(),""];
   return [
-    text.substring(0, i).trim(),
-    text.substring(i+1).trim()
+    txt.substring(0,i).trim(),
+    txt.substring(i+1).trim()
   ];
 }
 
-/* ======================================
+/* ================================
    SIDEBAR
-====================================== */
-
+================================ */
 function buildSidebar(){
 
-  const sidebar = document.getElementById("sidebar");
-  sidebar.innerHTML = "";
+  const side=document.getElementById("sidebar");
+  side.innerHTML="";
 
-  const grouped = {};
+  const grouped={};
 
-  entries.forEach(e=>{
-    if(!grouped[e.title]) grouped[e.title] = [];
+  codexData.forEach(e=>{
+    if(!grouped[e.title]) grouped[e.title]=[];
     grouped[e.title].push(e);
   });
 
-  Object.keys(grouped).forEach(title => {
+  Object.keys(grouped).forEach(title=>{
 
-    const tDiv = document.createElement("div");
-    tDiv.className = "title";
-    tDiv.textContent = title;
-    tDiv.onclick = () => renderTitle(title);
-    sidebar.appendChild(tDiv);
+    // Title
+    const t=document.createElement("div");
+    t.className="title";
+    t.textContent=title;
+    t.onclick=()=>{
+      expandedSubcodex=null;
+      renderTitle(title);
+      updateHash(title);
+    };
+    side.appendChild(t);
 
-    grouped[title].forEach(e => {
-
+    // Subcodex
+    grouped[title].forEach(e=>{
       if(!e.sub) return;
 
-      const [label] = splitColon(e.sub);
+      const [subTitle]=splitColon(e.sub);
 
-      const sDiv = document.createElement("div");
-      sDiv.className = "sub";
-      sDiv.textContent = label;
-      sDiv.onclick = () => renderEntry(e);
+      const s=document.createElement("div");
+      s.className="sub";
+      s.textContent=subTitle;
 
-      sidebar.appendChild(sDiv);
+      s.onclick=(ev)=>{
+        ev.stopPropagation();
+        expandedSubcodex=subTitle;
+        renderTitle(title);
+        updateHash(title, subTitle);
+      };
 
+      side.appendChild(s);
     });
 
   });
+
 }
 
-/* ======================================
-   RENDERIZAÇÃO
-====================================== */
-
+/* ================================
+   RENDER
+================================ */
 function renderTitle(title){
 
-  const content = document.getElementById("content");
-  content.innerHTML = `<h1>${title}</h1>`;
+  const box=document.getElementById("content");
+  box.innerHTML=`<h1>${title}</h1>`;
 
-  entries
-    .filter(e => e.title === title)
-    .forEach(e => {
+  codexData
+    .filter(e=>e.title===title)
+    .forEach(e=>{
 
-      // Conteúdo SEM subcodex → aparece normal
+      // Conteúdo normal
       if(!e.sub){
-        content.innerHTML += `<p>${e.content}</p><hr>`;
+        box.innerHTML+=`
+          <p>${e.content}</p><hr>
+        `;
         return;
       }
 
-      const [subTitle, subText] = splitColon(e.sub);
+      // Subcodex accordion
+      const [subTitle, subText]=splitColon(e.sub);
 
-      const block = document.createElement("div");
-      block.className = "subBlock";
+      const block=document.createElement("div");
+      block.className="subBlock";
 
-      const sTitle = document.createElement("div");
-      sTitle.className = "subTitle";
-      sTitle.textContent = subTitle;
+      const st=document.createElement("div");
+      st.className="subTitle";
+      st.textContent=subTitle;
 
-      const sText = document.createElement("div");
-      sText.className = "subText";
-      sText.textContent = subText + (e.content ? " " + e.content : "");
+      const txt=document.createElement("div");
+      txt.className="subText";
+      txt.innerHTML=`
+        ${subText}
+        ${e.content ? "<br>" + e.content : ""}
+      `;
 
-      sTitle.onclick = () => {
+      st.onclick=()=>{
         block.classList.toggle("open");
+        if(block.classList.contains("open")){
+          updateHash(title, subTitle);
+        }
       };
 
-      block.appendChild(sTitle);
-      block.appendChild(sText);
-      content.appendChild(block);
+      block.append(st, txt);
+      box.append(block);
+
+      /* auto-expand */
+      if(expandedSubcodex === subTitle){
+        block.classList.add("open");
+        setTimeout(()=>{
+          st.scrollIntoView({behavior:"smooth", block:"center"});
+        },150);
+      }
+
     });
 
 }
 
-function renderEntry(e){
+/* ================================
+   SEARCH
+================================ */
+function searchCodex(){
 
-  const content = document.getElementById("content");
-
-  const [subTitle, subText] = splitColon(e.sub || "");
-
-  content.innerHTML = `
-    <h1>${e.title}</h1>
-
-    <div class="subBlock open">
-      <div class="subTitle">${subTitle}</div>
-      <div class="subText">
-        ${subText} ${e.content || ""}
-      </div>
-    </div>
-  `;
-}
-
-/* ======================================
-   BUSCA
-====================================== */
-
-const input = document.getElementById("search");
-
-input.addEventListener("input", ()=>{
-
-  const term = input.value.toLowerCase();
+  const term=document.getElementById("search")
+    .value.trim().toLowerCase();
 
   if(!term){
-    document.getElementById("content").innerHTML =
-      "<p>Selecione um tópico à esquerda ou utilize a busca.</p>";
+    buildSidebar();
     return;
   }
 
-  const results = entries.filter(e =>
-    e.title.toLowerCase().includes(term) ||
-    (e.sub && e.sub.toLowerCase().includes(term)) ||
-    e.content.toLowerCase().includes(term)
-  );
+  const side=document.getElementById("sidebar");
+  side.innerHTML="";
 
-  showResults(results, term);
-});
+  codexData.forEach(e=>{
 
-function showResults(list, term){
+    const inTitle=e.title.toLowerCase().includes(term);
+    const inContent=e.content.toLowerCase().includes(term);
+    const inSub=e.sub && e.sub.toLowerCase().includes(term);
 
-  const content = document.getElementById("content");
+    if(!inTitle && !inContent && !inSub) return;
 
-  content.innerHTML = `<h2>Resultados para: "${term}"</h2>`;
+    const t=document.createElement("div");
+    t.className="title";
+    t.textContent=e.title;
+    t.onclick=()=>{
+      expandedSubcodex=null;
+      renderTitle(e.title);
+      updateHash(e.title);
+    };
 
-  list.forEach(e => {
+    side.appendChild(t);
 
-    const [subTitle, subText] = splitColon(e.sub || "");
+    if(inSub){
 
-    content.innerHTML += `
-      <h3>
-        ${highlight(e.title, term)}
-        ${subTitle ? " › " + highlight(subTitle, term) : ""}
-      </h3>
+      const [subTitle]=splitColon(e.sub);
 
-      <p>
-        ${highlight(subText + " " + e.content, term)}
-      </p>
+      const s=document.createElement("div");
+      s.className="sub";
+      s.textContent=subTitle;
+      s.onclick=(ev)=>{
+        ev.stopPropagation();
+        expandedSubcodex=subTitle;
+        renderTitle(e.title);
+        updateHash(e.title, subTitle);
+      };
 
-      <hr>
-    `;
+      side.appendChild(s);
+    }
+
   });
 
 }
 
-/* ======================================
-   HIGHLIGHT
-====================================== */
+/* ================================
+   DEEP LINK
+================================ */
 
-function highlight(text, term){
-  if(!term) return text;
+function updateHash(title, sub){
 
-  return text.replace(new RegExp(term,'gi'),
-    m => `<span class="highlight">${m}</span>`
-  );
+  let hash=`#${encodeURIComponent(title)}`;
+  if(sub)
+    hash+=`/${encodeURIComponent(sub)}`;
+
+  history.replaceState(null,"",hash);
+
 }
+
+function handleHash(){
+
+  if(!location.hash) return;
+
+  const parts=location.hash.substring(1)
+    .split("/")
+    .map(p=> decodeURIComponent(p));
+
+  const title=parts[0];
+  const sub=parts[1];
+
+  if(!title) return;
+
+  expandedSubcodex=sub || null;
+  renderTitle(title);
+
+}
+
