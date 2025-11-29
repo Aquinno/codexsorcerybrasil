@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  background: #0b0b0f;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  padding: 10px;
+  background: #111;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+input {
+  width: 300px;
+  padding: 6px;
+  background: #222;
+  color: white;
+  border: 1px solid #444;
+}
+
+.layout {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+
+aside {
+  width: 280px;
+  background: #151515;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+aside div {
+  cursor: pointer;
+  margin: 6px 0;
+}
+
+aside .sub {
+  margin-left: 15px;
+  color: #aaa;
+}
+
+main {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.highlight {
+  background: yellow;
+  color: black;
+}
