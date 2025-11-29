@@ -1,17 +1,18 @@
 body{
   margin:0;
-  background:#f8faff;
+  background:#05070b;
+  color:#dce6f2;
   font-family: "Segoe UI", Arial, sans-serif;
-  color:#0d1b2a;
 }
 
 header{
-  background: linear-gradient(90deg,#003366,#006d5b,#f1c40f);
+  background: linear-gradient(90deg,#002b55,#006d5b,#cfae33);
   color:white;
   padding:12px 20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+  border-bottom:1px solid #1a2633;
 }
 
 header h1{
@@ -23,8 +24,10 @@ input{
   width:320px;
   padding:6px 10px;
   border-radius:6px;
-  border:1px solid #ddd;
-  font-size:14px;
+  background:#0c111a;
+  color:white;
+  border:1px solid #2b3a4c;
+  outline:none;
 }
 
 .layout{
@@ -32,30 +35,32 @@ input{
   height: calc(100vh - 60px);
 }
 
-/* SIDEBAR */
+/* ========= SIDEBAR ========= */
+
 aside{
   width:320px;
-  background:#ffffff;
-  border-right:2px solid #e5eef8;
+  background:#070b11;
+  border-right:2px solid #101924;
   overflow-y:auto;
-  padding:10px;
+  padding:10px 12px;
 }
 
 .title{
   font-weight:600;
-  color:#003366;
+  color:#4da8ff;
   cursor:pointer;
-  margin-top:6px;
+  margin:6px 0;
 }
 
 .sub{
-  margin-left:15px;
-  color:#006d5b;
+  margin-left:16px;
+  color:#37d2a7;
   cursor:pointer;
   font-size:14px;
 }
 
-/* CONTEÚDO */
+/* ========= CONTEÚDO ========= */
+
 main{
   flex:1;
   padding:20px 30px;
@@ -63,29 +68,64 @@ main{
 }
 
 h1{
-  color:#003366;
+  color:#4da8ff;
   margin-bottom:10px;
 }
 
 h2{
-  color:#006d5b;
-  margin-top:15px;
+  color:#37d2a7;
+  margin-top:14px;
 }
 
-p{
+/* Accordion */
+
+.subBlock{
+  border-left:2px solid #1e2c3c;
+  margin:12px 0;
+  padding-left:14px;
+}
+
+.subTitle{
+  font-size:15px;
+  font-weight:600;
+  color:#37d2a7;
+  cursor:pointer;
+  user-select:none;
+}
+
+.subTitle::after{
+  content:" ▸";
+  color:#cfae33;
+}
+
+.subBlock.open .subTitle::after{
+  content:" ▾";
+}
+
+.subText{
+  display:none;
+  margin-top:6px;
+  color:#b9c8d9;
+  font-size:13px;
   line-height:1.6em;
+}
+
+/* quando aberto */
+.subBlock.open .subText{
+  display:block;
+}
+
+/* Busca */
+
+.highlight{
+  background:#cfae33;
+  color:#111;
+  padding:2px 4px;
+  border-radius:3px;
 }
 
 hr{
   border:none;
-  border-top:1px solid #ddd;
+  border-top:1px solid #132033;
   margin:16px 0;
-}
-
-/* BUSCA */
-.highlight{
-  background:#f1c40f;
-  color:#111;
-  padding:2px 4px;
-  border-radius:3px;
 }
