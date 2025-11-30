@@ -154,9 +154,18 @@ main p{
   max-height:1200px;
 }
 
+.channelLink img {
+    width: 40px;
+    height: 40px;
+    /* Optional: Ensure the image is a block element for better layout control */
+    display: block; 
+}
+
 /* ---------- Footer ---------- */
 footer{
   background:#05070b;
   color:#9fb3c9;
   font-size:12px;
   padding:12px 18px;
+
+
