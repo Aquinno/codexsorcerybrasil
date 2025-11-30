@@ -5,10 +5,45 @@
 
 <title>Codex PT-BR — Sorcery</title>
 
-<!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 <link rel="stylesheet" href="style.css">
+
+<style>
+/* Estilos para Centralizar o Rodapé */
+footer {
+    display: flex;
+    flex-direction: column; /* Organiza os filhos verticalmente */
+    align-items: center; /* Centraliza todos os filhos (link e parágrafo) horizontalmente */
+    text-align: center;
+    padding: 20px 10px; /* Adiciona algum preenchimento */
+}
+
+/* Estilos para o Link do Canal */
+.channelLink {
+    display: flex;
+    align-items: center; /* Alinha o ícone e o texto verticalmente */
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+    margin-bottom: 15px; /* Adiciona espaço abaixo do link e acima do texto legal */
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold; /* Opcional: Para dar destaque ao link */
+}
+
+/* Estilos para o Ícone: 40x40 pixels */
+.channelLink img {
+    width: 40px;
+    height: 40px;
+}
+
+/* Estilos para o Aviso Legal */
+.legal {
+    max-width: 800px; /* Limita a largura do texto legal para melhor leitura */
+    font-size: 0.8em;
+    line-height: 1.4;
+    color: #555; /* Cor um pouco mais suave */
+}
+</style>
 </head>
 <body>
 
@@ -30,6 +65,15 @@
 </div>
 
 <footer>
+<a 
+    class="channelLink"
+    href="https://www.youtube.com/@TemploDaEpifania" 
+    target="_blank" 
+    rel="noopener noreferrer"
+>
+    <img **style="width: 40px; height: 40px;"** src="logo_templo.png" alt="Templo da Epifania">
+    <span>Considere Visitar Meu Canal</span>
+</a>
   
   <p class="legal">
     This website is an independent, non-commercial translation project. 
@@ -37,16 +81,6 @@
     the Codex, are the property of Erik’s Curiosa. This site is not affiliated with,
     endorsed by, sponsored by, or associated with Erik’s Curiosa in any way.
   </p>
-
-  <a 
-    class="channelLink"
-    href="https://www.youtube.com/@TemploDaEpifania" 
-    target="_blank" 
-    rel="noopener noreferrer"
-  >
-    <img src="logo_templo.png" alt="Templo da Epifania">
-    <span>Considere Visitar Meu Canal</span>
-  </a>
 
 </footer>
 
